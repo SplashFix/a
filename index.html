@@ -145,7 +145,7 @@
             border-right: 3px solid #6366f1;
             padding-right: 5px;
             overflow: hidden;
-            animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+            animation: typing 3s steps(30, end) 1, blink 0.75s step-end infinite;
         }
 
         @keyframes typing {
@@ -278,7 +278,7 @@
             <div class="hero-content">
                 <h1>
                     <span class="hero-greeting">Hi, I'm SplashFix</span>
-                    <span class="hero-title typing">Designer/Coder</span>
+                    <span class="hero-title typing" id="typed-text">Designer/Coder</span>
                 </h1>
                 <p class="hero-subtitle">Crafting digital experiences that merge aesthetic elegance with technical excellence.</p>
                 <div class="social-links">
@@ -325,5 +325,30 @@
         </div>
     </div>
 </section>
+
+<script>
+    const typedText = document.getElementById("typed-text");
+    const text = "Designer/Coder";
+    let index = 0;
+    let isDeleting = false;
+    
+    function typeEffect() {
+        if (isDeleting) {
+            typedText.textContent = text.substring(0, index--);
+        } else {
+            typedText.textContent = text.substring(0, index++);
+        }
+        
+        if (index === text.length) {
+            isDeleting = true;
+        } else if (index === 0) {
+            isDeleting = false;
+        }
+
+        setTimeout(typeEffect, isDeleting ? 150 : 200);
+    }
+
+    typeEffect();
+</script>
 </body>
 </html>
