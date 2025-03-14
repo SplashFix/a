@@ -332,32 +332,41 @@
     const text = "Designer/Coder";
     let index = 0;
     let isDeleting = false;
+    let pauseDuration = 5000; // 5 Sekunden Pause
 
     function typeEffect() {
         if (isDeleting) {
+            // Text löschen
             typedText.textContent = text.substring(0, index--);
         } else {
+            // Text schreiben
             typedText.textContent = text.substring(0, index++);
         }
 
-        if (index === text.length && !isDeleting) {
-            // Nach dem vollständigen Schreiben 5 Sekunden warten, bevor gelöscht wird
+        // Vollständig geschrieben
+        if (index === text.length + 1 && !isDeleting) {
             setTimeout(() => {
                 isDeleting = true;
-            }, 3000);
+                typeEffect(); // Starte das Löschen nach der Pause
+            }, pauseDuration);
+            return; // Beende die Funktion, um Race-Conditions zu vermeiden
         }
 
-        if (index === 0 && isDeleting) {
+        // Vollständig gelöscht
+        if (index === -1 && isDeleting) {
             isDeleting = false;
-            // 5 Sekunden warten, bevor der nächste Tipp-Vorgang startet
-            setTimeout(typeEffect, 5000); 
-            return; // Verhindert, dass es direkt weiter tippt.
+            setTimeout(() => {
+                typeEffect(); // Starte das Schreiben nach der Pause
+            }, pauseDuration);
+            return; // Beende die Funktion, um Race-Conditions zu vermeiden
         }
 
-        // Verzögerung für Typen und Löschen
-        setTimeout(typeEffect, isDeleting ? 150 : 200);
+        // Geschwindigkeit für Schreiben und Löschen
+        const speed = isDeleting ? 100 : 150;
+        setTimeout(typeEffect, speed);
     }
 
+    // Starte den Effekt
     typeEffect();
 </script>
 </body>
