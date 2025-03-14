@@ -119,11 +119,13 @@
         }
 
         .hero-title {
+    display: inline-block; /* Änderung von block zu inline-block */
     position: relative;
     overflow: hidden;
     white-space: nowrap;
-    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
-    border-right: 3px solid var(--accent-color); /* Cursor-Effekt */
+    animation: typing 2.5s steps(13, end), blink-caret 0.75s step-end infinite;
+    border-right: 3px solid var(--accent-color);
+    max-width: max-content; /* Wichtig für responsive Darstellung */
 }
 
 @keyframes typing {
@@ -135,6 +137,21 @@
     from, to { border-color: transparent }
     50% { border-color: var(--accent-color); }
 }
+
+/* Responsive Anpassungen hinzufügen */
+@media (max-width: 768px) {
+    .hero-title {
+        animation: typing 1.8s steps(13, end), blink-caret 0.75s step-end infinite;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        animation: typing 1.5s steps(13, end), blink-caret 0.75s step-end infinite;
+        font-size: 3rem !important;
+    }
+}
+</style>
 
         .hero-subtitle {
             font-size: 1.35rem;
