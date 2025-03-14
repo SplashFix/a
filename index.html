@@ -318,6 +318,9 @@
     </div>
 </section>
 
+<!-- 🚨 ACHTUNG: Nur der geänderte JavaScript-Teil ist hier aufgeführt. -->
+<!-- Füge diesen Script-Teil in deine HTML-Datei ein (ersetzte den alten). -->
+
 <script>
     const typedText = document.getElementById("typed-text");
     const text = "Designer/Coder";
@@ -326,38 +329,35 @@
     let pauseDuration = 2000; // 2 Sekunden Pause
 
     function typeEffect() {
-        const currentText = text.substring(0, index);
-
-        // Setze den aktuellen Text
-        typedText.textContent = currentText;
-
-        // Schreibe oder lösche Buchstaben
+        // Schreibe/Lösche Buchstaben
         if (!isDeleting) {
-            // Schreibe Buchstaben
+            typedText.textContent = text.substring(0, index + 1);
             index++;
-            if (index > text.length) {
-                // Nach dem Schreiben 2 Sekunden warten
-                isDeleting = true;
-                setTimeout(typeEffect, pauseDuration);
-                return;
-            }
         } else {
-            // Lösche Buchstaben
+            typedText.textContent = text.substring(0, index - 1);
             index--;
-            if (index === 0) {
-                // Nach dem Löschen 2 Sekunden warten
-                isDeleting = false;
-                setTimeout(typeEffect, pauseDuration);
-                return;
-            }
         }
 
-        // Geschwindigkeit für Schreiben und Löschen
-        const speed = isDeleting ? 100 : 150;
+        // Vollständig geschrieben? → Pause → Lösche
+        if (index > text.length && !isDeleting) {
+            isDeleting = true;
+            setTimeout(typeEffect, pauseDuration);
+            return;
+        }
+
+        // Vollständig gelöscht? → Pause → Schreibe
+        if (index === 0 && isDeleting) {
+            isDeleting = false;
+            setTimeout(typeEffect, pauseDuration);
+            return;
+        }
+
+        // Geschwindigkeit
+        const speed = isDeleting ? 100 : 200; 
         setTimeout(typeEffect, speed);
     }
 
-    // Starte den Effekt
+    // Start
     typeEffect();
 </script>
 </body>
