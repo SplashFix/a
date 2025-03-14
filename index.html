@@ -146,16 +146,7 @@
             border-right: 3px solid #6366f1;
             padding-right: 5px;
             overflow: hidden;
-            animation: typing 3s steps(30, end) 1, blink 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
+            animation: blink 0.75s step-end infinite;
         }
 
         @keyframes blink {
@@ -279,7 +270,7 @@
             <div class="hero-content">
                 <h1>
                     <span class="hero-greeting">Hi, I'm SplashFix</span>
-                    <span class="hero-title typing" id="typed-text">Designer/Coder</span>
+                    <span class="hero-title typing" id="typed-text"></span>
                 </h1>
                 <p class="hero-subtitle">Crafting digital experiences that merge aesthetic elegance with technical excellence.</p>
                 <div class="social-links">
@@ -332,33 +323,33 @@
     const text = "Designer/Coder";
     let index = 0;
     let isDeleting = false;
-    let pauseDuration = 5000; // 5 Sekunden Pause
+    let pauseDuration = 2000; // 2 Sekunden Pause
 
     function typeEffect() {
-        if (isDeleting) {
-            // Text löschen
-            typedText.textContent = text.substring(0, index--);
-        } else {
-            // Text schreiben
-            typedText.textContent = text.substring(0, index++);
-        }
+        const currentText = text.substring(0, index);
 
-        // Vollständig geschrieben
-        if (index === text.length + 1 && !isDeleting) {
-            setTimeout(() => {
+        // Setze den aktuellen Text
+        typedText.textContent = currentText;
+
+        // Schreibe oder lösche Buchstaben
+        if (!isDeleting) {
+            // Schreibe Buchstaben
+            index++;
+            if (index > text.length) {
+                // Nach dem Schreiben 2 Sekunden warten
                 isDeleting = true;
-                typeEffect(); // Starte das Löschen nach der Pause
-            }, pauseDuration);
-            return; // Beende die Funktion, um Race-Conditions zu vermeiden
-        }
-
-        // Vollständig gelöscht
-        if (index === -1 && isDeleting) {
-            isDeleting = false;
-            setTimeout(() => {
-                typeEffect(); // Starte das Schreiben nach der Pause
-            }, pauseDuration);
-            return; // Beende die Funktion, um Race-Conditions zu vermeiden
+                setTimeout(typeEffect, pauseDuration);
+                return;
+            }
+        } else {
+            // Lösche Buchstaben
+            index--;
+            if (index === 0) {
+                // Nach dem Löschen 2 Sekunden warten
+                isDeleting = false;
+                setTimeout(typeEffect, pauseDuration);
+                return;
+            }
         }
 
         // Geschwindigkeit für Schreiben und Löschen
