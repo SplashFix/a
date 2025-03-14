@@ -99,8 +99,8 @@
             border-radius: 20px;
             border: 2px solid rgba(255,255,255,0.1);
             box-shadow:
-                    -25px 25px 50px -12px rgba(0,0,0,0.25),
-                    0 0 60px -15px rgba(99, 102, 241, 0.4);
+                -25px 25px 50px -12px rgba(0,0,0,0.25),
+                0 0 60px -15px rgba(99, 102, 241, 0.4);
             transform: perspective(1000px) rotateY(-10deg);
             margin-left: -50px;
             position: relative;
@@ -111,7 +111,6 @@
         .hero-greeting {
             display: block;
             font-size: 2rem;
-            line-height: 0.0;
             color: #94a3b8;
             margin-bottom: 0.5rem;
             font-weight: 500;
@@ -119,44 +118,36 @@
         }
 
         .hero-title {
-    display: inline-block; /* Änderung von block zu inline-block */
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    animation: typing 2.5s steps(13, end), blink-caret 0.75s step-end infinite;
-    border-right: 3px solid var(--accent-color);
-    max-width: max-content; /* Wichtig für responsive Darstellung */
-}
+            display: block;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin: 1.5rem 0 2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -2px;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 2.5s steps(13, end), blink-caret 0.75s step-end;
+            max-width: fit-content;
+        }
 
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
 
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--accent-color); }
-}
-
-/* Responsive Anpassungen hinzufügen */
-@media (max-width: 768px) {
-    .hero-title {
-        animation: typing 1.8s steps(13, end), blink-caret 0.75s step-end infinite;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-title {
-        animation: typing 1.5s steps(13, end), blink-caret 0.75s step-end infinite;
-        font-size: 3rem !important;
-    }
-}
-</style>
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
+        }
 
         .hero-subtitle {
             font-size: 1.35rem;
             color: #94a3b8;
-            margin-bottom: 2rem; /* Reduzierter Abstand */
+            margin-bottom: 2rem;
             max-width: 500px;
             line-height: 1.8;
         }
@@ -230,6 +221,7 @@
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 3.8rem;
+                animation: typing 1.8s steps(13, end), blink-caret 0.75s step-end;
             }
 
             .hero-image img {
@@ -247,7 +239,7 @@
                 width: 40px;
                 height: 40px;
             }
-
+            
             .social-link img {
                 width: 22px;
                 height: 22px;
@@ -257,6 +249,7 @@
         @media (max-width: 480px) {
             .hero-title {
                 font-size: 3rem;
+                animation: typing 1.2s steps(13, end), blink-caret 0.75s step-end;
             }
 
             .hero-greeting {
