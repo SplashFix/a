@@ -325,15 +325,17 @@
             isDeleting = false;
             typedText.textContent = '';
             typedText.classList.remove('visible');
-            setTimeout(typeEffect, 100);
+            
+            // 🔥 1-Sekunden-Verzögerung vor dem Neustart
+            setTimeout(typeEffect, 1000);
         }
 
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) resetAnimation();
         });
 
-        // Initial start with slight delay
-        setTimeout(resetAnimation, 500);
+        // Initialer Start mit 1 Sekunde Verzögerung
+        setTimeout(resetAnimation, 1000);
     </script>
 </body>
 </html>
