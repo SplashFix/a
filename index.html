@@ -332,19 +332,19 @@
     const text = "Designer/Coder";
     let index = 0;
     let isDeleting = false;
-    
+
     function typeEffect() {
         if (isDeleting) {
             typedText.textContent = text.substring(0, index--);
         } else {
             typedText.textContent = text.substring(0, index++);
         }
-        
+
         if (index === text.length) {
-            // Pause für 5 Sekunden
+            // 5 Sekunden Pause nach vollständigem Schreiben
             setTimeout(() => {
                 isDeleting = true;
-            }, 5000); // 5 Sekunden Pause nach dem vollständigen Schreiben
+            }, 5000); // Pause 5 Sekunden
         }
 
         if (index === 0 && isDeleting) {
