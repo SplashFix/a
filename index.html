@@ -340,17 +340,21 @@
             typedText.textContent = text.substring(0, index++);
         }
 
-        if (index === text.length) {
-            // 5 Sekunden Pause nach vollständigem Schreiben
+        if (index === text.length && !isDeleting) {
+            // Nach dem vollständigen Schreiben 5 Sekunden warten, bevor gelöscht wird
             setTimeout(() => {
                 isDeleting = true;
-            }, 5000); // Pause 5 Sekunden
+            }, 5000);
         }
 
         if (index === 0 && isDeleting) {
             isDeleting = false;
+            // 5 Sekunden warten, bevor der nächste Tipp-Vorgang startet
+            setTimeout(typeEffect, 5000); 
+            return; // Verhindert, dass es direkt weiter tippt.
         }
 
+        // Verzögerung für Typen und Löschen
         setTimeout(typeEffect, isDeleting ? 150 : 200);
     }
 
