@@ -23,4 +23,39 @@ document.addEventListener('DOMContentLoaded', () => {
             element.style.transform = 'translateY(0)';
         }, index * 200);
     });
+
+// Schreibanimation für "Designer/Coder"
+const textElement = document.querySelector(".hero-title");
+const textArray = ["Designer", "Coder"];
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeEffect() {
+    const currentText = textArray[textIndex];
+    if (isDeleting) {
+        charIndex--;
+    } else {
+        charIndex++;
+    }
+
+    textElement.innerHTML = currentText.substring(0, charIndex) + '<span class="cursor">|</span>';
+
+    if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1000); // Pause bevor es gelöscht wird
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % textArray.length;
+        setTimeout(typeEffect, 500); // Pause bevor es neu getippt wird
+    } else {
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
+    }
+}
+
+// Startet die Animation nach dem Laden der Seite
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(typeEffect, 500);
+});
+
 });
