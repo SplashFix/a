@@ -119,17 +119,22 @@
         }
 
         .hero-title {
-            display: block;
-            font-size: 4.5rem;
-            line-height: 1.2; /* Erhöhte Zeilenhöhe */
-            margin: 1.5rem 0 2rem; /* Mehr Abstand unten */
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            letter-spacing: -2px;
-        }
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    border-right: 3px solid var(--accent-color); /* Cursor-Effekt */
+}
 
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--accent-color); }
+}
 
         .hero-subtitle {
             font-size: 1.35rem;
@@ -317,19 +322,26 @@
 
     // Animationen
     document.addEventListener('DOMContentLoaded', () => {
-        const elements = document.querySelectorAll('.hero-content, .hero-image');
+    const elements = document.querySelectorAll('.hero-content, .hero-image');
+    const title = document.querySelector('.hero-title');
 
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    // Reset Animation für Reload
+    title.style.animation = 'none';
+    void title.offsetHeight; // Trigger Reflow
+    title.style.animation = null;
 
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
+    elements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, index * 200);
     });
+});
 </script>
+
 </body>
 </html>
