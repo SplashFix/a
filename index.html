@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SplashFix | Designer & Coder</title>
     <style>
-        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -33,7 +32,6 @@
             padding: 0 2rem;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -69,7 +67,6 @@
             text-align: left;
         }
 
-        /* Image mit Glow-Effekt */
         .hero-image {
             flex: 1;
             display: flex;
@@ -98,9 +95,8 @@
             height: auto;
             border-radius: 20px;
             border: 2px solid rgba(255,255,255,0.1);
-            box-shadow:
-                    -25px 25px 50px -12px rgba(0,0,0,0.25),
-                    0 0 60px -15px rgba(99, 102, 241, 0.4);
+            box-shadow: -25px 25px 50px -12px rgba(0,0,0,0.25),
+                        0 0 60px -15px rgba(99, 102, 241, 0.4);
             transform: perspective(1000px) rotateY(-10deg);
             margin-left: -50px;
             position: relative;
@@ -111,9 +107,9 @@
         .hero-greeting {
             display: block;
             font-size: 2rem;
-            line-height: 0.0;
+            line-height: 0;
             color: #94a3b8;
-            margin-bottom: 1.5rem; /* Erhöhter Abstand nach unten */
+            margin-bottom: 1.5rem;
             font-weight: 500;
             letter-spacing: -0.5px;
         }
@@ -122,7 +118,7 @@
             display: block;
             font-size: 4.5rem;
             line-height: 1.2;
-            margin: 0.5rem 0; /* Reduzierter Abstand */
+            margin: 0.5rem 0;
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -133,13 +129,11 @@
         .hero-subtitle {
             font-size: 1.35rem;
             color: #94a3b8;
-            margin-top: 0; /* Abstand nach oben entfernt */
-            margin-bottom: 1rem; /* Reduzierter Abstand unten */
+            margin-bottom: 1rem;
             max-width: 500px;
             line-height: 1.8;
         }
 
-        /* Schreib-Effekt */
         .typing {
             display: inline-block;
             white-space: nowrap;
@@ -149,17 +143,22 @@
             animation: blink 0.75s step-end infinite;
         }
 
-        @keyframes blink {
-            50% {
-                border-color: transparent;
-            }
+        #typed-text {
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Social Media Styles */
+        #typed-text.visible {
+            opacity: 1;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
         .social-links {
             display: flex;
             gap: 1.5rem;
-            align-items: center;
             margin-top: 2rem;
         }
 
@@ -172,8 +171,13 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
             border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 8px 20px -5px rgba(99, 102, 241, 0.2);
         }
 
         .social-link img {
@@ -183,65 +187,48 @@
             transition: filter 0.3s ease;
         }
 
-        .social-link:hover {
-            transform: translateY(-3px);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 8px 20px -5px rgba(99, 102, 241, 0.2);
-        }
-
         .social-link:hover img {
             filter: brightness(1);
         }
 
-        /* Responsive Design */
         @media (max-width: 1024px) {
             .hero-wrapper {
                 flex-direction: column;
                 text-align: center;
                 gap: 3rem;
             }
-
             .hero-image img {
                 max-width: 70%;
                 transform: perspective(800px) rotateY(-8deg);
             }
-
             .hero-image::after {
                 width: 110%;
                 filter: blur(30px);
                 transform: translate(-50%, -50%) perspective(800px) rotateY(-8deg);
             }
-
             .hero-subtitle {
                 margin: 0 auto 2rem;
             }
-
             .social-links {
                 justify-content: center;
             }
         }
 
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3.8rem;
-            }
-
+            .hero-title { font-size: 3.8rem; }
             .hero-image img {
                 max-width: 100%;
                 transform: none;
             }
-
             .hero-image::after {
                 filter: blur(20px);
                 opacity: 0.25;
                 transform: none;
             }
-
             .social-link {
                 width: 40px;
                 height: 40px;
             }
-
             .social-link img {
                 width: 22px;
                 height: 22px;
@@ -249,116 +236,104 @@
         }
 
         @media (max-width: 480px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-greeting {
-                font-size: 1.8rem;
-            }
-
-            .social-links {
-                gap: 1rem;
-            }
+            .hero-title { font-size: 3rem; }
+            .hero-greeting { font-size: 1.8rem; }
+            .social-links { gap: 1rem; }
         }
     </style>
 </head>
 <body>
-<section class="hero">
-    <div class="container">
-        <div class="hero-wrapper">
-            <div class="hero-content">
-                <h1>
-                    <span class="hero-greeting">Hi, I'm SplashFix</span>
-                    <span class="hero-title typing" id="typed-text"></span>
-                </h1>
-                <p class="hero-subtitle">Crafting digital experiences that merge aesthetic elegance with technical excellence.</p>
-                <div class="social-links">
-                    <!-- Ersetze # mit deinen eigenen Links -->
-                    <a href="https://www.youtube.com/@SPLASHFIXX"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="social-link">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-                    </a>
-
-                    <a href="https://www.tiktok.com/@gabdrops"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="social-link">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046126.png" alt="TikTok">
-                    </a>
-
-                    <a href="https://open.spotify.com/user/31clvas2t3veesyjmacjzmmwzy5u"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="social-link">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111624.png" alt="Spotify">
-                    </a>
-
-                    <a href="https://www.twitch.tv/splashfix_"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="social-link">
-                        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch">
-                    </a>
-
-                    <a href="https://discord.gg/At6jxmyUyS"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="social-link">
-                        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
-                    </a>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-content">
+                    <h1>
+                        <span class="hero-greeting">Hi, I'm SplashFix</span>
+                        <span class="hero-title typing" id="typed-text"></span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Crafting digital experiences that merge aesthetic elegance with technical excellence.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/@SPLASHFIXX" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+                        </a>
+                        <a href="https://www.tiktok.com/@gabdrops" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046126.png" alt="TikTok">
+                        </a>
+                        <a href="https://open.spotify.com/user/31clvas2t3veesyjmacjzmmwzy5u" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111624.png" alt="Spotify">
+                        </a>
+                        <a href="https://www.twitch.tv/splashfix_" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968819.png" alt="Twitch">
+                        </a>
+                        <a href="https://discord.gg/At6jxmyUyS" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://i.imgur.com/CUsesa5.png" alt="Freelance Designer">
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="https://i.imgur.com/CUsesa5.png" alt="Freelance Designer">
-            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- 🚨 ACHTUNG: Nur der geänderte JavaScript-Teil ist hier aufgeführt. -->
-<!-- Füge diesen Script-Teil in deine HTML-Datei ein (ersetzte den alten). -->
+    <script>
+        const typedText = document.getElementById('typed-text');
+        const text = 'Designer/Coder';
+        let index = 0;
+        let isDeleting = false;
+        let timeoutId = null;
+        const writeSpeed = 200;
+        const deleteSpeed = 100;
+        const pauseDuration = 2000;
 
-<script>
-    const typedText = document.getElementById("typed-text");
-    const text = "Designer/Coder";
-    let index = 0;
-    let isDeleting = false;
-    let pauseDuration = 2000; // 2 Sekunden Pause
+        function typeEffect() {
+            typedText.classList.add('visible');
+            
+            if (!isDeleting) {
+                typedText.textContent = text.substring(0, index + 1);
+                index++;
+                
+                if (index > text.length) {
+                    timeoutId = setTimeout(() => {
+                        isDeleting = true;
+                        typeEffect();
+                    }, pauseDuration);
+                    return;
+                }
+            } else {
+                typedText.textContent = text.substring(0, index - 1);
+                index--;
+                
+                if (index === 0) {
+                    timeoutId = setTimeout(() => {
+                        isDeleting = false;
+                        typeEffect();
+                    }, pauseDuration);
+                    return;
+                }
+            }
 
-    function typeEffect() {
-        // Schreibe/Lösche Buchstaben
-        if (!isDeleting) {
-            typedText.textContent = text.substring(0, index + 1);
-            index++;
-        } else {
-            typedText.textContent = text.substring(0, index - 1);
-            index--;
+            timeoutId = setTimeout(typeEffect, isDeleting ? deleteSpeed : writeSpeed);
         }
 
-        // Vollständig geschrieben? → Pause → Lösche
-        if (index > text.length && !isDeleting) {
-            isDeleting = true;
-            setTimeout(typeEffect, pauseDuration);
-            return;
-        }
-
-        // Vollständig gelöscht? → Pause → Schreibe
-        if (index === 0 && isDeleting) {
+        function resetAnimation() {
+            clearTimeout(timeoutId);
+            index = 0;
             isDeleting = false;
-            setTimeout(typeEffect, pauseDuration);
-            return;
+            typedText.textContent = '';
+            typedText.classList.remove('visible');
+            setTimeout(typeEffect, 100);
         }
 
-        // Geschwindigkeit
-        const speed = isDeleting ? 100 : 200; 
-        setTimeout(typeEffect, speed);
-    }
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) resetAnimation();
+        });
 
-    // Start
-    typeEffect();
-</script>
+        // Initial start with slight delay
+        setTimeout(resetAnimation, 500);
+    </script>
 </body>
 </html>
