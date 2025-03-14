@@ -130,13 +130,37 @@
             letter-spacing: -2px;
         }
 
-
         .hero-subtitle {
             font-size: 1.35rem;
             color: #94a3b8;
             margin-bottom: 2rem; /* Reduzierter Abstand */
             max-width: 500px;
             line-height: 1.8;
+        }
+
+        /* Schreib-Effekt */
+        .typing {
+            display: inline-block;
+            white-space: nowrap;
+            border-right: 3px solid #6366f1;
+            padding-right: 5px;
+            overflow: hidden;
+            animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
         }
 
         /* Social Media Styles */
@@ -246,7 +270,6 @@
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <section class="hero">
@@ -255,7 +278,7 @@
             <div class="hero-content">
                 <h1>
                     <span class="hero-greeting">Hi, I'm SplashFix</span>
-                    <span class="hero-title">Designer/Coder</span>
+                    <span class="hero-title typing">Designer/Coder</span>
                 </h1>
                 <p class="hero-subtitle">Crafting digital experiences that merge aesthetic elegance with technical excellence.</p>
                 <div class="social-links">
@@ -302,34 +325,5 @@
         </div>
     </div>
 </section>
-
-<script>
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        });
-    });
-
-    // Animationen
-    document.addEventListener('DOMContentLoaded', () => {
-        const elements = document.querySelectorAll('.hero-content, .hero-image');
-
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
-    });
-</script>
 </body>
 </html>
