@@ -656,15 +656,12 @@
         const code = args.get('code');
 
         if (code) {
-          // We have a code, let's exchange it for a token
           getAccessToken(code);
         } else {
-          // No code, check if we have a stored token
           const accessToken = localStorage.getItem('spotify_access_token');
           if (accessToken && Date.now() < localStorage.getItem('spotify_token_expires')) {
             fetchSpotifyData(accessToken);
           } else {
-            // No token or expired, show login button
             loginContainer.style.display = 'block';
             playerContainer.style.display = 'none';
           }
@@ -674,6 +671,21 @@
       loginButton.addEventListener('click', () => {
         redirectToSpotifyAuthorize();
       });
+
+      function formatTimeAgo(isoString) {
+        const date = new Date(isoString);
+        const now = new Date();
+        const seconds = Math.round((now - date) / 1000);
+        const minutes = Math.round(seconds / 60);
+        const hours = Math.round(minutes / 60);
+        const days = Math.round(hours / 24);
+
+        if (minutes < 2) return `listened just now`;
+        if (minutes < 60) return `listened ${minutes}m ago`;
+        if (hours < 24) return `listened ${hours}h ago`;
+        if (days < 7) return `listened ${days}d ago`;
+        return `listened over a week ago`;
+      }
 
       async function redirectToSpotifyAuthorize() {
         const verifier = generateCodeVerifier(128);
@@ -714,7 +726,6 @@
           if (access_token) {
             localStorage.setItem('spotify_access_token', access_token);
             localStorage.setItem('spotify_token_expires', Date.now() + expires_in * 1000);
-            // Clean the URL
             window.history.pushState({}, document.title, window.location.pathname);
             fetchSpotifyData(access_token);
           }
@@ -740,7 +751,6 @@
             }
           }
 
-          // If nothing is currently playing or response was not 200, try recently played
           const recentResponse = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
             headers: { 'Authorization': `Bearer ${token}` }
           });
@@ -748,7 +758,7 @@
           if (recentResponse.status === 200) {
             const data = await recentResponse.json();
             if (data.items && data.items.length > 0) {
-              displayTrack(data.items[0].track, false);
+              displayTrack(data.items[0], false);
             } else {
               displayInactive();
             }
@@ -762,11 +772,17 @@
         }
       }
 
-      function displayTrack(track, isPlaying) {
+      function displayTrack(data, isPlaying) {
+        const track = isPlaying ? data : data.track;
         const albumCover = track.album.images[0]?.url || 'https://i.imgur.com/3gcePsw.png';
         const trackName = track.name;
         const artistName = track.artists.map(artist => artist.name).join(', ');
         const trackUrl = track.external_urls.spotify;
+
+        let timeAgoHtml = '';
+        if (!isPlaying && data.played_at) {
+          timeAgoHtml = `<span class="time-ago">${formatTimeAgo(data.played_at)}</span>`;
+        }
 
         playerContainer.innerHTML = `
                 <a href="${trackUrl}" target="_blank" rel="noopener noreferrer" class="track-link" style="display: contents;">
@@ -776,6 +792,7 @@
                         <p class="artist-name" title="${artistName}">${artistName}</p>
                     </div>
                 </a>
+                ${timeAgoHtml}
             `;
 
         loginContainer.style.display = 'none';
@@ -783,7 +800,7 @@
       }
 
       function displayInactive() {
-        playerContainer.innerHTML = `<p>Momentan wird nichts abgespielt.</p>`;
+        playerContainer.innerHTML = `<p style="padding-left: 8px;">Keine aktuelle Aktivität.</p>`;
         playerContainer.style.display = 'flex';
         loginContainer.style.display = 'none';
       }
