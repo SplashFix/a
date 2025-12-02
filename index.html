@@ -361,9 +361,10 @@
 
     /* Keyframes for the scrolling animation */
     @keyframes marquee {
-      to {
-        transform: translateX(var(--scroll-end, -20px)); /* fallback value */
-      }
+      0%   { transform: translateX(0); }
+      20%  { transform: translateX(0); } /* Start with a pause */
+      80%  { transform: translateX(var(--scroll-end, -20px)); } /* Scroll to the end */
+      100% { transform: translateX(var(--scroll-end, -20px)); } /* Pause at the end */
     }
 
     #spotify-player-container .track-name {
@@ -383,7 +384,7 @@
     }
 
     #spotify-player-container .track-name.is-overflowing:hover .track-name-inner {
-      animation: marquee 5s ease-in-out infinite alternate;
+      animation: marquee 8s linear infinite;
       padding-right: 16px; /* Add some padding so it doesn't touch the edge */
     }
 
