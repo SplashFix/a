@@ -331,11 +331,12 @@
       align-items: center;
       gap: 16px;
       background: var(--chip);
-      padding: 12px;
+      padding: 8px;
       border-radius: 16px;
       width: 400px;
       text-align: left;
       box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+      position: relative;
     }
 
     #spotify-player-container.is-inactive {
@@ -368,6 +369,14 @@
     #spotify-player-container .artist-name {
       color: var(--muted);
       font-size: 0.9rem;
+    }
+
+    .time-ago {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: var(--muted);
     }
 
     .track-link {
