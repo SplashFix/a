@@ -357,19 +357,42 @@
 
     #spotify-player-container .track-info p {
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    }
+
+    /* Keyframes for the scrolling animation */
+    @keyframes marquee {
+      to {
+        transform: translateX(var(--scroll-end, -20px)); /* fallback value */
+      }
     }
 
     #spotify-player-container .track-name {
       font-weight: bold;
       color: var(--fg);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; 
+    }
+
+    #spotify-player-container .track-name .track-name-inner {
+      display: inline-block;
+    }
+    
+    #spotify-player-container .track-name.is-overflowing {
+        text-overflow: clip;
+    }
+
+    #spotify-player-container .track-name.is-overflowing:hover .track-name-inner {
+      animation: marquee 5s ease-in-out infinite alternate;
+      padding-right: 16px; /* Add some padding so it doesn't touch the edge */
     }
 
     #spotify-player-container .artist-name {
       color: var(--muted);
       font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .time-ago {
@@ -789,12 +812,26 @@
                 <a href="${trackUrl}" target="_blank" rel="noopener noreferrer" class="track-link" style="display: contents;">
                     <img src="${albumCover}" alt="Album cover for ${track.album.name}">
                     <div class="track-info">
-                        <p class="track-name" title="${trackName}">${trackName}</p>
+                        <p class="track-name" title="${trackName}"><span class="track-name-inner">${trackName}</span></p>
                         <p class="artist-name" title="${artistName}">${artistName}</p>
                     </div>
                 </a>
                 ${timeAgoHtml}
             `;
+        
+        const trackNameP = playerContainer.querySelector('.track-name');
+        if (trackNameP) {
+            const trackNameSpan = trackNameP.querySelector('.track-name-inner');
+            // Use requestAnimationFrame to ensure the element is rendered and widths are correct
+            requestAnimationFrame(() => {
+                if (trackNameSpan && trackNameSpan.scrollWidth > trackNameP.clientWidth) {
+                    trackNameP.classList.add('is-overflowing');
+                    const scrollEnd = trackNameP.clientWidth - trackNameSpan.scrollWidth;
+                    trackNameP.style.setProperty('--scroll-end', `${scrollEnd}px`);
+                }
+            });
+        }
+
         playerContainer.style.display = 'flex';
       }
 
